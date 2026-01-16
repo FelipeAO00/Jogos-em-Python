@@ -1,42 +1,89 @@
-import pygame, sys
+import pygame
 import time
+import random
 
+# Example file showing a basic pygame "game loop" :fonte pygame.doc
 pygame.init()
-screen = pygame.display.set_mode((500,500))
+screen = pygame.display.set_mode((1280,700))
+borda = screen 
 clock = pygame.time.Clock()
-test_surface = pygame.Surface((200, 250))
-test_surface.fill((70,50,255)) 
+space_size = 50
+
+running = True
+#test_surface = pygame.Surface((200, 250))
+#test_surface.fill((70,50,255)) 
+#x_pos = 200
+#y_pos = 250
 
 
-while True:
-    for event in pygame.event.get():
+dt = 0
+
+def teclas():
+    keys = pygame.key.get_pressed()
+    
+    if keys[pygame.K_w]: 
+        player_pos.y += 500 * dt
+    
+    if keys[pygame.K_a]:
+        player_pos.x -= 500 * dt
+    
+    if keys[pygame.K_s]:
+        player_pos.y -= 500 * dt
+    
+    if keys[pygame.K_d]:
+        player_pos.x += 500 * dt
+
+while running:
+    # poll for events
+    # pygame.QUIT event means the user clicked X to close your window
+    for event in pygame.event.get():    
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            running = False
+    
+    player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+    # fill the screen with a color to wipe away anything from last frame
+    screen.fill("Green")
+    teclas()
+    pygame.draw.circle(screen, "red", player_pos, 40)
 
-    screen.fill ((70,255,50))
-    screen.blit(test_surface, (200 , 250))
-    pygame.display.update() 
-    clock.tick(60)
-
-
- 
+    # RENDER YOUR GAME HERE#
+    
+    # flip() the display to put your work on screen   
+    pygame.display.flip()
+        
+    # limits FPS to 60
+    # dt is delta time in seconds since last frame, used for framerate-
+    # independent physics.
+    dt = clock.tick(60) / 1000
+pygame.quit()
 
 
 
 
 
 class Snake:
+    snake_speed = 50
+    snake_parts = 3
+    snake_color = "#00FF00"
+
     pass
  
-class comida:
+class Food:
+    def _init_(self):
+        self.food_color = "#FF0000"
+        self.food_spawn_x = (random.randinit(0 , 700/space_size) -1) *space_size
+        self.food_spawn_y = (random.randinit(0 , 1280/space_size) -1) *space_size
     pass
 
-def game_over():
+def game_over(False):
+    # caso a cobra encoste na borda MORTE 
+    if snake_x < 0 or snake_x >= largura or snake_y < 0 or snake_y >= altura:
+    game_over = True
+        
     pass
 
 def colisao():
     pass
 
 def direcao():
-    passd
+    pass
